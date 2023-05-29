@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>添加文章</title>
+  </head>
+  <body>
+    <form action="{{url_for('article.publish_article')}}" method="post">
+      <p><input type="text" name="title" placeholder="文章標題" /></p>
+      <p>
+        <textarea
+          cols="50"
+          rows="10"
+          placeholder="輸入文章內容"
+          name="content"
+        ></textarea>
+      </p>
+      <p>
+        用戶:
+        <select name="uid">
+          <option value="0">請選擇用戶</option>
+          {% for user in users%}
+          <option value="{{user.id}}">{{user.username}}</option>
+          {% endfor %}
+        </select>
+      </p>
+      <p><input type="submit" value="添加文章" /></p>
+    </form>
+  </body>
+</html>

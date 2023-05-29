@@ -1,0 +1,50 @@
+步驟：
+1. pip install flask-bootstrap
+2.進行配置：
+    from flask-bootstrap import Bootstrap
+    bootstrap = Bootstrap()
+
+    在__init__.py中進行初始化：
+    #初始化bootstrap
+    bootstrap.init_app(app=app)
+3.內置的block:
+    {% block title %}首頁{% endblock %}
+    {% block navbar %}  {% endblock %}
+    {% block content %} {% endblock %}
+    {% block styles %}  {% endblock %}
+    {% block scripts %} {% endblock %}
+    {% block head %}    {% endblock %}
+    {% block body %}    {% endblock %}
+
+密碼加密:
+註冊：
+generate_password_hash(ppassword) -->加密
+sha256$salt$加密的密碼 （長度超過100字元）
+
+登陸：
+check_password_hash(pwdHash,password) --> bool:False,True
+
+cookies 儲存在瀏覽器
+session 儲存在服務器
+client side session cookie儲存一個session_id
+
+#實現方式：
+1.cookie:
+-保存
+通過response對象保存
+    response = redirect(XXX)
+    response = render_template(XXX)
+    response = Response()
+    response = make_response()
+    response = jsonify()
+    通過對象調用方式
+    response.set_cookie(key.value,max_age)
+    其中max_age表示過期期間,單位是秒
+    也可以使用expires設置過期時間,expires = datatime.now()+timedelta(hour=1)
+
+
+
+
+
+  <span></span>
+

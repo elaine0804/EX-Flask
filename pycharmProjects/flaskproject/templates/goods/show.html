@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>購物頁面</title>
+    <script <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+</head>
+<body>
+<form>
+    <p><select name="uid">
+        <option value="0">--請選擇購物用戶--</option>
+        {% for user in users %}
+        <option value ="{{user.id}}">{{user.username}}</option>
+        {% endfor %}
+    </select>
+    </p>
+    <p>
+    <table border="1" cellspacing="0" width="50%">
+        <tr>
+            <th>序號</th>
+            <th>商品名</th>
+            <th>價格</th>
+            <th>操作</th>
+        </tr>
+        {% for goods in good_list %}
+            <tr>>
+                <td>{{loop.index}}</td>
+                <td>{{goods.gname}}</td>
+                <td>{{goods.price}}</td>
+                <td><input type="button" class="btnbuy" value="購買" tag="{{goods.id}}"/></td>
+            </tr>
+        {% endfor %}
+    </table>
+    </p>
+</form>
+<script>
+    $(".btnbuy").click(function(){
+        goods_id = $(this).attr("tag");
+        user_id = $('select[name="uid"]').val();
+        console.log(goods_id,user_id)
+        location.href = "/buy?uid="+user_id+"&gid="+goods_id;
+    })
+</script>
+</body>
+</html>
