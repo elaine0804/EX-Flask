@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block title %} 用戶註冊 {% endblock %}
+
+{% block styles %}
+  {{super()}}
+  <style>
+    #container{
+      passing-top: 30px;
+      width: 1000px;
+      height: 600px;
+      margin: 20px auto;
+    }
+  </style>
+{% endblock %}
+{% block newcontent %}
+  <div id="container">
+    <h1>用戶註冊</h1>
+    <form class="form-horizontal" method="post" action="{{url_for('user.register')}}">
+      <div class="form-group">
+        <label for="inputusername" class="col-md-2 control-label">帳號</label>
+        <div class="col-md-6">
+          <input type="text" class="form-control" id="inputusername" placeholder="Username" name="username">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputpassword" class="col-md-2 control-label">密碼</label>
+        <div class="col-md-6">
+          <input type="password" class="form-control" id="inputpassword" placeholder="Password" name="password">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputconfirm" class="col-md-2 control-label">確認密碼</label>
+        <div class="col-md-6">
+          <input type="password" class="form-control" id="inputconfirm" placeholder="ConfirmPassword" name="repassword">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputphone" class="col-md-2 control-label">手機號碼</label>
+        <div class="col-md-6">
+          <input type="text" class="form-control" id="inputphone" placeholder="Phonenumber" name="phone"><span></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputemail" class="col-md-2 control-label">電子信箱</label>
+        <div class="col-md-6">
+          <input type="email"  class="form-control" id="inputemail" placeholder="Email" name="email"><span></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-md-10">
+          <button type="submit" class="btn btn-primary col-md-3">註&nbsp&nbsp冊</button>
+          <button type="submit" class="btn btn-primary col-md-3" style="margin-left:70px">重&nbsp&nbsp置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{# 添加js腳本 #}
+{% block scripts%}
+  {{super()}}
+  <script>
+    /blur失去焦點觸發事件
+    $('#inputphone').blur(function(){
+      let phone = $(this).val();
+      let span_ele = $(this).next("span");
+      if(phone.length == "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"){
+        span_ele.text("");
+        $.get("{{url_for('user.check_phone')}}",{phone:phone},function(data){
+          if(data.code!=200){
+            span_ele.css({"color":"blue","font-size":"12px"});
+            span_ele.text(data.msg);
+          }
+        })
+      }else{
+        span_ele.css({"color":"#ff0011","font-size":"12px"});
+        span_ele.text("手機格式錯誤");
+      }
+    })
+  </script>
+  <script>
+    emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+    $('#inputemail').blur(function(){
+      let email = $(this).val();
+      let span_ele = $(this).next("span");
+      if(email.search(emailRule)!= -1){
+        span_ele.text("");
+        $.get("{{url_for('user.check_email')}}",{email:email},function(data){
+          if(data.code!= 200){
+            span_ele.css({"color":"#ff0011","font-size":"12px"});
+            span_ele.text(data.msg);
+          }else{
+          span_ele.css({"color":"blue","font-size":"12px"});
+          span_ele.text(data.msg);
+          }
+        })
+      }else{
+        span_ele.css({"color":"#ff0011","font-size":"12px"});
+        span_ele.text("信箱格式錯誤");
+      }
+    })
+  </script>
+{% endblock %}
